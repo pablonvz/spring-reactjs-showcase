@@ -3,24 +3,26 @@ import { Grid, Navbar } from 'react-bootstrap';
 
 import './FileManager.css'
 import FileManagerTable from './FileManagerTable';
+import FileForm from './FileForm';
 
 export default class FileManager extends React.Component {
-  render() {
-    return (
-      <div className="FileManager">
-        <Navbar>
-          <Grid>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <a href="/">File Manager</a>
-              </Navbar.Brand>
-              <Navbar.Toggle />
-            </Navbar.Header>
-          </Grid>
-        </Navbar>
+    render() {
+        return (
+            <div className="FileManager">
+                <Navbar>
+                    <Grid>
+                        <Navbar.Header>
+                            <Navbar.Brand>
+                            <a href="/">File Manager</a>
+                            </Navbar.Brand>
+                            <Navbar.Toggle />
+                        </Navbar.Header>
+                    </Grid>
+                </Navbar>
 
-      	<FileManagerTable />
-      </div>
-    );
-  }
+                <FileForm />
+                <FileManagerTable />
+            </div>
+        );
+    }
 }
