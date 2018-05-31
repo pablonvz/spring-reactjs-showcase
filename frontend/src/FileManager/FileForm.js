@@ -5,7 +5,8 @@ import {
     FormControl,
     ControlLabel,
     HelpBlock,
-    Col
+    Col,
+    Button
 } from 'react-bootstrap';
 
 
@@ -23,13 +24,24 @@ const formGroup = ({label, formControl, help, ...props}) => (
 
 class FileForm extends React.Component {
     render() {
+        const { onSubmit } = this.props;
         return (
             <Form horizontal>
-                {formGroup({ label: "testing" })}
+                {formGroup({ label: "Title" })}
                 {formGroup({ label: "Description", componentClass: "textarea" })}
                 {formGroup({ label: "File", type: "file" })}
+                <Col className="text-center">
+                    <Button type="submit" onClick={onSubmit} bsStyle="success">Create</Button>
+                </Col>
             </Form>
         );
+    }
+}
+
+FileForm.defaultProps = {
+    onSubmit: ev => {
+        ev.preventDefault();
+        console.error("default implementation of FileForm.onSubmit");
     }
 }
 

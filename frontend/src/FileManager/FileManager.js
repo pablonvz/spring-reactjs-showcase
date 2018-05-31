@@ -21,6 +21,7 @@ export default class FileManager extends React.Component {
                 </Navbar>
 
                 <FileForm />
+                <br />
                 <FileTable />
             </div>
         );
