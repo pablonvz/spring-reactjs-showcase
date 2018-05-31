@@ -21,4 +21,16 @@ public class FileMetadataDTO implements Serializable {
 
 		return dto;
 	}
+
+	public boolean isNew() {
+		return getId() == null;
+	}
+
+	public void syncTo(FileMetadata fileMetadata) {
+		if (isNew())
+			fileMetadata.setId(getId());
+
+		fileMetadata.setTitle(getTitle());
+		fileMetadata.setDescription(getDescription());
+	}
 }

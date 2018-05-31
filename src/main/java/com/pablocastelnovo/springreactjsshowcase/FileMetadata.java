@@ -7,35 +7,26 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class FileMetadata implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private String title;
-
-	private String description;
-
-	private String pathname;
-
-	public FileMetadata(final Long id, final String title, final String description, final String pathname) {
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.pathname = pathname;
-	}
-
-	public FileMetadata(final String title, final String description, final String pathname) {
-		this.title = title;
-		this.description = description;
-		this.pathname = pathname;
-	}
+    private String originalContentFilename;
+    private String contentId;
+    private String title;
+    private String description;
+    private String pathname;
 }

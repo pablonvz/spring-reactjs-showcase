@@ -1,7 +1,7 @@
 package com.pablocastelnovo.springreactjsshowcase;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface FileMetadataRepository extends CrudRepository<FileMetadata, Long> {
+public interface FileMetadataRepository extends PagingAndSortingRepository<FileMetadata, Long> {
 
 }
