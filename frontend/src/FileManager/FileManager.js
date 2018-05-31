@@ -1,29 +1,29 @@
 import React from 'react';
-import { Grid, Navbar } from 'react-bootstrap';
-
-import './FileManager.css'
-import FileTable from './FileTable';
-import FileForm from './FileForm';
+import FileManagerView from './FileManagerView';
 
 export default class FileManager extends React.Component {
-    render() {
-        return (
-            <div className="FileManager">
-                <Navbar>
-                    <Grid>
-                        <Navbar.Header>
-                            <Navbar.Brand>
-                            <a href="/">File Manager</a>
-                            </Navbar.Brand>
-                            <Navbar.Toggle />
-                        </Navbar.Header>
-                    </Grid>
-                </Navbar>
+    constructor(props) {
+        super(props);
 
-                <FileForm />
-                <br />
-                <FileTable />
-            </div>
-        );
+        this.state = {
+            file: []
+        };
+    }
+
+    componentDidMount() {
+        const updateState = page => {
+            this.setState({
+                files: page.content
+            });
+        };
+
+        fetch('http://127.0.0.1:8080/api/files')
+            .then(response => response.json())
+            .then(updateState)
+            .catch(console.err);
+    }
+
+    render() {
+        return (<FileManagerView files={this.state.files} />);
     }
 }
