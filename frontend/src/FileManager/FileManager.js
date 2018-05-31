@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Navbar } from 'react-bootstrap';
 
 import './FileManager.css'
-import FileManagerTable from './FileManagerTable';
+import FileTable from './FileTable';
 import FileForm from './FileForm';
 
 export default class FileManager extends React.Component {
@@ -21,7 +21,7 @@ export default class FileManager extends React.Component {
                 </Navbar>
 
                 <FileForm />
-                <FileManagerTable />
+                <FileTable />
             </div>
         );
     }

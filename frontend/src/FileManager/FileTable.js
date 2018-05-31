@@ -32,7 +32,7 @@ const renderRows = files => Array.from(files).map((f, idx) => {
     return <TableRow key={idx} {...f} createdAt={new Date().toLocaleDateString()} />;
 });
 
-const FileManagerTable = ({files}) => (
+const FileTable = ({files}) => (
     <div>
         <Table bordered>
             <thead>
@@ -47,8 +47,8 @@ const FileManagerTable = ({files}) => (
     </div>
 );
 
-FileManagerTable.defaultProps = {
+FileTable.defaultProps = {
     files: staticSeeds
 };
 
-export default FileManagerTable;
+export default FileTable;
