@@ -7,21 +7,32 @@ export default class FileManager extends React.Component {
         super(props);
 
         this.state = {
-            file: []
+            file: [],
+            currentPage: 0,
+            totalPages: 1
         };
     }
 
-    componentDidMount() {
+    fetchFiles(pageNumber = 0) {
         const updateState = page => {
             this.setState({
-                files: page.content
+                files: page.content,
+                currentPage: page.number + 1,
+                totalPages: page.totalPages
             });
         };
 
-        fetch('http://127.0.0.1:8080/api/files')
+        const url = new URL('http://127.0.0.1:8080/api/files');
+        url.searchParams.append('page', pageNumber);
+
+        return fetch(url)
             .then(response => response.json())
             .then(updateState)
             .catch(console.err);
+    }
+
+    componentDidMount() {
+        this.fetchFiles(this.state.currentPage);
     }
 
     createFileMetadata = details => {
@@ -38,6 +49,10 @@ export default class FileManager extends React.Component {
     }
 
     render() {
-        return (<FileManagerView files={this.state.files} onCreate={this.createFileMetadata} />);
+        return (
+            <FileManagerView
+                onCreate={this.createFileMetadata}
+                onPageChange={pageNumber => this.fetchFiles(pageNumber - 1)}
+                {...this.state} />);
     }
 }

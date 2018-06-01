@@ -1,11 +1,19 @@
 import React from 'react';
 import { Grid, Navbar } from 'react-bootstrap';
+import PaginationBar from '../common/components/Pagination';
 
 import './FileManager.css'
 import FileTable from './FileTable';
 import FileForm from './FileForm';
 
-const FileManagerView = ({files, onCreate: create}) => (
+const FileManagerView = ({
+    files,
+    onCreate: create,
+    // PaginationBar's props
+    currentPage,
+    totalPages,
+    onPageChange
+}) => (
     <div className="FileManager">
         <Navbar>
             <Grid>
@@ -21,6 +29,10 @@ const FileManagerView = ({files, onCreate: create}) => (
         <FileForm onSubmit={create} />
         <br />
         <FileTable files={files} />
+        <PaginationBar
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange} />
     </div>
 );
 
