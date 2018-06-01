@@ -5,7 +5,7 @@ import './FileManager.css'
 import FileTable from './FileTable';
 import FileForm from './FileForm';
 
-const FileManagerView = ({files}) => (
+const FileManagerView = ({files, onCreate: create}) => (
     <div className="FileManager">
         <Navbar>
             <Grid>
@@ -18,7 +18,7 @@ const FileManagerView = ({files}) => (
             </Grid>
         </Navbar>
 
-        <FileForm />
+        <FileForm onSubmit={create} />
         <br />
         <FileTable files={files} />
     </div>

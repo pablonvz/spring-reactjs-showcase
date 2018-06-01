@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SpringReactjsShowcaseApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringReactjsShowcaseApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringReactjsShowcaseApplication.class, args);
+    }
 }
