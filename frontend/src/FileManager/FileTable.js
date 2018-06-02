@@ -29,7 +29,7 @@ const TableRow = ({
 );
 
 const renderRows = files => Array.from(files).map((f, idx) => {
-    return <TableRow key={idx} {...f} createdAt={new Date().toLocaleDateString()} />;
+    return <TableRow key={idx} {...f} createdAt={new Date(f.createdAt).toLocaleString()} />;
 });
 
 const FileTable = ({files}) => (
