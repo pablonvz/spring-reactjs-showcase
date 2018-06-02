@@ -8,19 +8,30 @@ import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 class FileSystemContentRepositoryImpl implements ContentRepository {
 
+    private final FilesSystemContentRepositoryProperties repositoryProperties;
+
+    @Autowired
+    public FileSystemContentRepositoryImpl(FilesSystemContentRepositoryProperties contentRepositoryProperties) {
+        repositoryProperties = contentRepositoryProperties;
+
+        Paths.get(repositoryProperties.getBasePath()).toFile().mkdirs();
+    }
+
     @Override
     public String saveContent(InputStream content) throws IOException {
         final UUID contentId = UUID.randomUUID();
 
-        final File file = new File(contentId.toString());
+        final File file = Paths.get(repositoryProperties.getBasePath(), contentId.toString()).toFile();
         final FileOutputStream outputStream = new FileOutputStream(file);
 
         IOUtils.copy(content, outputStream);
