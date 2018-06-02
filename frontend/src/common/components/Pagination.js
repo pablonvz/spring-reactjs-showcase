@@ -16,12 +16,14 @@ const PaginationBar = ({
             onPageChange(n);
         };
     };
-    const maxSideButtons = 4;
-    const totalLeftButtons = Math.min(maxSideButtons + 1, currentPage);
-    const leftButtons = Array(totalLeftButtons)
-        .fill(currentPage - (maxSideButtons + 1))
-        .map((curVal, idx) => {
-            const pageNumber = currentPage - totalLeftButtons + idx + 1;
+
+    const totalButtons = Math.min(11, totalPages);
+    const middleButtonNumber = Math.max(1, currentPage - (totalButtons / 2).toFixed());
+    const firstButtonNumber = Math.max(1, Math.min(middleButtonNumber, totalPages - totalButtons));
+    const pageButtons = Array(totalButtons)
+        .fill(firstButtonNumber)
+        .map((_, idx) => {
+            const pageNumber = firstButtonNumber + idx;
             return (
                 <Pagination.Item key={pageNumber}
                     active={pageNumber === currentPage}
@@ -29,31 +31,12 @@ const PaginationBar = ({
                         {pageNumber}
                 </Pagination.Item>
             );
-        }
-    );
-
-
-    const totalRightButtons = Math.min(maxSideButtons, totalPages - currentPage);
-    const rightButtons = Array(totalRightButtons)
-        .fill(currentPage)
-        .map((curVal, idx) => {
-            const pageNumber = currentPage + idx + 1;
-            return (
-                <Pagination.Item
-                    key={pageNumber}
-                    active={pageNumber === currentPage}
-                    onClick={goToPage(pageNumber)}>
-                        {pageNumber}
-                </Pagination.Item>
-            );
-        }
-    );
+        });
 
     return (
         <Pagination>
             <Pagination.First onClick={goToPage(1)} />
-            {leftButtons}
-            {rightButtons}
+            {pageButtons}
             <Pagination.Last onClick={goToPage(totalPages)} />
         </Pagination>
     );
