@@ -33,7 +33,6 @@ class FileForm extends React.Component {
     }
 
     render() {
-        // TODO: invoke to this.props.onSubmit
         const onSubmit = ev => {
             ev.preventDefault();
 
