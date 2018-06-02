@@ -21,7 +21,7 @@ const PaginationBar = ({
     const middleButtonNumber = Math.max(1, currentPage - (totalButtons / 2).toFixed());
     const firstButtonNumber = Math.max(1, Math.min(middleButtonNumber, totalPages - totalButtons));
     const pageButtons = Array(totalButtons)
-        .fill(firstButtonNumber)
+        .fill()
         .map((_, idx) => {
             const pageNumber = firstButtonNumber + idx;
             return (

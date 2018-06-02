@@ -52,7 +52,7 @@ export default class FileManager extends React.Component {
         return (
             <FileManagerView
                 onCreate={this.createFileMetadata}
-                onPageChange={pageNumber => this.fetchFiles(pageNumber)}
+                onPageChange={pageNumber => this.fetchFiles(pageNumber - 1)}
                 {...this.state}
                 currentPage={this.state.currentPage + 1} />); // the child components start counting the pages with 1
     }
