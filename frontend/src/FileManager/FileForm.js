@@ -10,6 +10,9 @@ import {
 } from 'react-bootstrap';
 
 import FileRecord from '../FileRecord';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const FileFormGroup = ({label, formControl, help, ...props}) => (
     <FormGroup>
@@ -53,7 +56,8 @@ class FileForm extends React.Component {
         const updateTitle = updateRecord('title');
         const updateDescription = updateRecord('description');
         const updateFile = updateRecord('file', event => event.target.files[0]);
-        const { title, description } = this.state.currentRecord;
+        const updateCreatedAt = updateRecord('createdAt', createdAt => createdAt);
+        const { title, description, createdAt } = this.state.currentRecord;
 
         return (
             <Form horizontal>
@@ -69,6 +73,18 @@ class FileForm extends React.Component {
                 <FileFormGroup label="File"
                     onChange={updateFile}
                     type="file" />
+
+                <FormGroup>
+                    <Col componentClass={ControlLabel} sm={2}>
+                        <ControlLabel>Creation date</ControlLabel>
+                    </Col>
+                    <Col sm={10} className="text-left">
+                        <DatePicker
+                            onChange={updateCreatedAt}
+                            selected={createdAt}
+                            className="form-control" />
+                    </Col>
+                </FormGroup>
 
                 <Col className="text-center">
                     <Button type="submit" onClick={onSubmit} bsStyle="success">Create</Button>

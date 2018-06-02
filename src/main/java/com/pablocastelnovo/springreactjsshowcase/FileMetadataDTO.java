@@ -15,7 +15,7 @@ public class FileMetadataDTO implements Serializable {
     private String title;
     private String description;
     private MultipartFile file;
-    private Instant createdAt;
+    private String createdAt;
 
     public static FileMetadataDTO of(FileMetadata entity) {
         final FileMetadataDTO dto = new FileMetadataDTO();
@@ -23,7 +23,7 @@ public class FileMetadataDTO implements Serializable {
         dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
-        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setCreatedAt(entity.getCreatedAt().toString());
 
         return dto;
     }
@@ -31,5 +31,8 @@ public class FileMetadataDTO implements Serializable {
     public void syncTo(FileMetadata fileMetadata) {
         fileMetadata.setTitle(getTitle());
         fileMetadata.setDescription(getDescription());
+
+        if (getCreatedAt() != null)
+            fileMetadata.setCreatedAt(Instant.parse(getCreatedAt()));
     }
 }

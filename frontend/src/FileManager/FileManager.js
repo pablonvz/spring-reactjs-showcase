@@ -17,7 +17,7 @@ export default class FileManager extends React.Component {
         const updateState = page => {
             this.setState({
                 files: page.content,
-                currentPage: page.number + 1,
+                currentPage: page.number,
                 totalPages: page.totalPages
             });
         };
@@ -45,14 +45,15 @@ export default class FileManager extends React.Component {
                 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000'
             }})
         .then(response => response.json())
-        .then(console.log);
+        .then(() => this.fetchFiles(this.state.currentPage));
     }
 
     render() {
         return (
             <FileManagerView
                 onCreate={this.createFileMetadata}
-                onPageChange={pageNumber => this.fetchFiles(pageNumber - 1)}
-                {...this.state} />);
+                onPageChange={pageNumber => this.fetchFiles(pageNumber)}
+                {...this.state}
+                currentPage={this.state.currentPage + 1} />); // the child components start counting the pages with 1
     }
 }

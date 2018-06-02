@@ -1,9 +1,19 @@
+import moment from 'moment';
+
 export default class FileRecord {
     constructor() {
-        this.id = null;
+        this.id = 0;
         this.title = '';
         this.description = '';
+        this._createdAt = moment().format();
         this.file = null;
+    }
+
+    get createdAt() {
+        return moment(this._createdAt);
+    }
+    set createdAt(createdAt) {
+        this._createdAt = createdAt != null ? createdAt.format() : null;
     }
 
     static from(details) {
