@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 
 @SpringBootApplication
 @EnableConfigurationProperties({
-    FilesSystemContentRepositoryProperties.class
+    FileSystemContentRepositoryProperties.class
 })
 public class SpringReactjsShowcaseApplication {
 

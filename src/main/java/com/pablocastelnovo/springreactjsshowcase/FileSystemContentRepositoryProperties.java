@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ConfigurationProperties(prefix = "contents.file-system")
-final class FilesSystemContentRepositoryProperties {
+final class FileSystemContentRepositoryProperties {
 
     private String basePath;
 
