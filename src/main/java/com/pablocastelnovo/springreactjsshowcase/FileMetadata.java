@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.apache.commons.lang3.Validate;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,9 +28,6 @@ public class FileMetadata implements Serializable {
     private Long id;
 
     @Setter(value = AccessLevel.NONE)
-    private String originalFilename;
-
-    @Setter(value = AccessLevel.NONE)
     private String contentId;
 
     private String title;
@@ -41,17 +40,21 @@ public class FileMetadata implements Serializable {
         createdAt = Instant.now();
     }
 
-    public void linkFile(final String fileContentId, final String origFilename) {
+    public void linkFile(final String fileContentId) {
         contentId = fileContentId;
-        originalFilename = origFilename;
     }
 
     public void unlinkContent() {
         contentId = null;
-        originalFilename = null;
     }
 
     public boolean hasContent() {
         return contentId != null;
+    }
+
+    public String contentNamespace() {
+        Validate.notNull(getId());
+
+        return String.valueOf(getId());
     }
 }

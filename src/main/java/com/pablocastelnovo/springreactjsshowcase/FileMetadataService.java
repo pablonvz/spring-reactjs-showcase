@@ -1,11 +1,14 @@
 package com.pablocastelnovo.springreactjsshowcase;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -43,18 +46,36 @@ public class FileMetadataService {
     }
 
     public FileMetadata save(FileMetadata fileMetadata, MultipartFile multipartFile) throws IOException {
+        fileMetadata = fileMetadataRepository.save(fileMetadata);
+
         if (multipartFile == null) {
             fileMetadata.unlinkContent();
         } else {
-            final String contentId = contentRepository.saveContent(multipartFile.getInputStream());
+            final String namespace = fileMetadata.contentNamespace();
+            final String filename = multipartFile.getOriginalFilename();
+            final InputStream fileInputStream = multipartFile.getInputStream();
 
-            fileMetadata.linkFile(contentId, multipartFile.getOriginalFilename());
+            final String contentId = contentRepository.saveContent(namespace, filename, fileInputStream);
+
+            fileMetadata.linkFile(contentId);
         }
 
         return fileMetadataRepository.save(fileMetadata);
     }
 
-    public Pageable configureDefaults(Pageable pageable) {
+    public Optional<Resource> contentAsResource(FileMetadata fileMetadata) {
+        Validate.notNull(fileMetadata);
+
+        try {
+            return contentRepository.loadAsResource(fileMetadata.contentNamespace(), fileMetadata.getContentId());
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            return Optional.empty();
+        }
+    }
+
+    private Pageable configureDefaults(Pageable pageable) {
         if (pageable.getSort().isUnsorted()) {
             Sort defaultSort = Sort.by(Order.desc(FileMetadata_.createdAt.getName()));
             return PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), defaultSort);
