@@ -17,16 +17,21 @@ const withTooltip = ({content, len}) => {
 }
 
 const TableRow = ({
+    id,
     title,
     description,
     createdAt
-}) => (
-    <tr>
-        <td>{title}</td>
-        <td>{withTooltip({content: description, len: 60})}</td>
-        <td>{createdAt}</td>
-    </tr>
-);
+}) => {
+    const contentUri = id ? "http://127.0.0.1:8080/api/files/" + id + "/download" : undefined;
+    return (
+        <tr>
+            <td>{title}</td>
+            <td>{withTooltip({content: description, len: 60})}</td>
+            <td>{createdAt}</td>
+            <td>{contentUri && (<a target="_blank" href={contentUri}>download</a>)}</td>
+        </tr>
+    )
+};
 
 const renderRows = files => Array.from(files).map((f, idx) => {
     return <TableRow key={idx} {...f} createdAt={new Date(f.createdAt).toLocaleDateString()} />;
@@ -40,6 +45,7 @@ const FileTable = ({files}) => (
                     <th>Title</th>
                     <th>Description</th>
                     <th>Creation date</th>
+                    <th>Content</th>
                 </tr>
             </thead>
             <tbody>{renderRows(files)}</tbody>

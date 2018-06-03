@@ -51,7 +51,7 @@ public class FileMetadataController {
     }
 
     @GetMapping("/{fileId}/download")
-    public ResponseEntity<Resource> download(@PathVariable(name = "fileId", required = true) final Long fileId) {
+    public ResponseEntity<?> download(@PathVariable(name = "fileId", required = true) final Long fileId) {
         Optional<Resource> resourceOptional = fileMetadataService.findById(fileId).flatMap(fileMetadata -> {
             return fileMetadataService.contentAsResource(fileMetadata);
         });
@@ -64,7 +64,7 @@ public class FileMetadataController {
                     .body(res);
         }
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("No content found");
     }
 
     private FileMetadata loadAndSync(FileMetadataDTO fileMetadataDTO) {
