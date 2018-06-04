@@ -7,6 +7,7 @@ export default class FileRecord {
         this.description = '';
         this._createdAt = moment().format();
         this.file = null;
+        this.contentUri = null;
     }
 
     get createdAt() {

@@ -20,9 +20,9 @@ const TableRow = ({
     id,
     title,
     description,
-    createdAt
+    createdAt,
+    contentUri
 }) => {
-    const contentUri = id ? "http://127.0.0.1:8080/api/files/" + id + "/download" : undefined;
     return (
         <tr>
             <td>{title}</td>

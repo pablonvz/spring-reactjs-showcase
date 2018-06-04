@@ -14,15 +14,21 @@ export default class FileManager extends React.Component {
     }
 
     fetchFiles(pageNumber = 0) {
+        const addContentUri = fileRecord => {
+            fileRecord.contentUri = this.props.basePath + fileRecord.id + '/download';
+
+            return fileRecord;
+        };
+
         const updateState = page => {
             this.setState({
-                files: page.content,
+                files: Array.from(page.content).map(addContentUri),
                 currentPage: page.number,
                 totalPages: page.totalPages
             });
         };
 
-        const url = new URL('http://127.0.0.1:8080/api/files');
+        const url = new URL(this.props.basePath);
         url.searchParams.append('page', pageNumber);
 
         return fetch(url)
@@ -38,7 +44,7 @@ export default class FileManager extends React.Component {
     createFileMetadata = details => {
         const data = FileRecord.from(details).asDataForm();
 
-        fetch('http://127.0.0.1:8080/api/files', {
+        fetch(this.props.basePath, {
             method: 'POST',
             body: data,
             headers: {
