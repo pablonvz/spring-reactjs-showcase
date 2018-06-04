@@ -97,11 +97,4 @@ class FileForm extends React.Component {
     }
 }
 
-FileForm.defaultProps = {
-    onSubmit: ev => {
-        ev.preventDefault();
-        console.error("default implementation of FileForm.onSubmit");
-    }
-}
-
 export default FileForm;
