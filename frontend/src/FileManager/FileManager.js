@@ -9,7 +9,7 @@ const throwIfResponseIsNotOK = response => {
     throw Error(response);
 };
 
-export default class FileManager extends React.Component {
+class FileManager extends React.Component {
     constructor(props) {
         super(props);
 
@@ -56,6 +56,8 @@ export default class FileManager extends React.Component {
             });
         };
 
+        const { onFetchFilesError } = this;
+
         const url = new URL(this.props.basePath);
         url.searchParams.append('page', pageNumber);
 
@@ -63,11 +65,17 @@ export default class FileManager extends React.Component {
             .then(throwIfResponseIsNotOK)
             .then(response => response.json())
             .then(updateState)
-            .catch(this.onFetchFilesError);
+            .catch(onFetchFilesError);
     }
 
     createFileMetadata = details => {
         const data = FileRecord.from(details).asDataForm();
+
+        const {
+            onCreateSuccess,
+            fetchCurrentPage,
+            onCreateError
+        } = this;
 
         fetch(this.props.basePath, {
             method: 'POST',
@@ -77,9 +85,9 @@ export default class FileManager extends React.Component {
             }})
         .then(throwIfResponseIsNotOK)
         .then(response => response.json())
-        .then(this.onCreateSuccess)
-        .then(this.fetchCurrentPage)
-        .catch(this.onCreateError);
+        .then(onCreateSuccess)
+        .then(fetchCurrentPage)
+        .catch(onCreateError);
     }
 
     componentDidMount() {
@@ -95,3 +103,5 @@ export default class FileManager extends React.Component {
                 currentPage={this.state.currentPage + 1} />); // the child components start counting the pages with 1
     }
 }
+
+export default FileManager;
