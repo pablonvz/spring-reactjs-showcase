@@ -37,8 +37,8 @@ const FileManagerView = ({
             totalPages={totalPages}
             onPageChange={onPageChange} />
 
-        <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">
+        <div className="row">
+            <div className="col-sm-10 col-sm-offset-1">
                 <Panel>
                     <Panel.Heading>
                         <Panel.Title componentClass="h3">Upload a new file</Panel.Title>
