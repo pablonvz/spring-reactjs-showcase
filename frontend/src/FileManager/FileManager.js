@@ -2,6 +2,13 @@ import React from 'react';
 import FileManagerView from './FileManagerView';
 import FileRecord from '../FileRecord';
 
+const throwIfResponseIsNotOK = response => {
+    if (response.ok)
+        return response;
+
+    throw Error(response);
+};
+
 export default class FileManager extends React.Component {
     constructor(props) {
         super(props);
@@ -9,11 +16,32 @@ export default class FileManager extends React.Component {
         this.state = {
             file: [],
             currentPage: 0,
-            totalPages: 1
+            totalPages: 1,
+            alertName: undefined
         };
     }
 
-    fetchFiles(pageNumber = 0) {
+    onCreateSuccess = () => this.setState({
+        alertName: 'createFileSuccess'
+    });
+
+    onCreateError = () => this.setState({
+       alertName: 'createFileFailed'
+    });
+
+    fetchCurrentPage = () => {
+        return this.fetchFiles(this.state.currentPage);
+    };
+
+    onFetchFilesError = ex => {
+        console.error(ex);
+
+        this.setState({
+            alertName: 'fetchFilesFailed'
+        });
+    }
+
+    fetchFiles = (pageNumber = 0) => {
         const addContentUri = fileRecord => {
             fileRecord.contentUri = this.props.basePath + fileRecord.id + '/download';
 
@@ -32,13 +60,10 @@ export default class FileManager extends React.Component {
         url.searchParams.append('page', pageNumber);
 
         return fetch(url)
+            .then(throwIfResponseIsNotOK)
             .then(response => response.json())
             .then(updateState)
-            .catch(console.err);
-    }
-
-    componentDidMount() {
-        this.fetchFiles(this.state.currentPage);
+            .catch(this.onFetchFilesError);
     }
 
     createFileMetadata = details => {
@@ -50,8 +75,15 @@ export default class FileManager extends React.Component {
             headers: {
                 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000'
             }})
+        .then(throwIfResponseIsNotOK)
         .then(response => response.json())
-        .then(() => this.fetchFiles(this.state.currentPage));
+        .then(this.onCreateSuccess)
+        .then(this.fetchCurrentPage)
+        .catch(this.onCreateError);
+    }
+
+    componentDidMount() {
+        this.fetchFiles(this.state.currentPage);
     }
 
     render() {
