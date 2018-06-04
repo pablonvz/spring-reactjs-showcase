@@ -1,5 +1,9 @@
 import React from 'react';
-import { Grid, Navbar } from 'react-bootstrap';
+import {
+    Grid,
+    Navbar,
+    Panel
+} from 'react-bootstrap';
 import PaginationBar from '../common/components/Pagination';
 
 import './FileManager.css'
@@ -26,13 +30,23 @@ const FileManagerView = ({
             </Grid>
         </Navbar>
 
-        <FileForm onSubmit={create} />
-        <br />
+        <h2>Existing files <small>seed data don't have a real file linked</small></h2>
         <FileTable files={files} />
         <PaginationBar
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={onPageChange} />
+
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <Panel>
+                    <Panel.Heading>
+                        <Panel.Title componentClass="h3">Upload a new file</Panel.Title>
+                    </Panel.Heading>
+                    <Panel.Body><FileForm onSubmit={create} /></Panel.Body>
+                </Panel>
+            </div>
+        </div>
     </div>
 );
 

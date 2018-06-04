@@ -89,8 +89,8 @@ class FileForm extends React.Component {
                     </Col>
                 </FormGroup>
 
-                <Col className="text-center">
-                    <Button type="submit" onClick={onSubmit} bsStyle="success">Create</Button>
+                <Col className="text-right">
+                    <Button type="submit" onClick={onSubmit} bsStyle="primary">Save</Button>
                 </Col>
             </Form>
         );
