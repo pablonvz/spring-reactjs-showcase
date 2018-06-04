@@ -20,7 +20,15 @@ export default class FileRecord {
     static from(details) {
         const fileRecord = new FileRecord();
 
-        Object.assign(fileRecord, details);
+        [
+            'id',
+            'title',
+            'description',
+            'createdAt',
+            'file'
+        ].forEach(propName =>  {
+            fileRecord[propName] = details[propName];
+        });
 
         return fileRecord;
     }
