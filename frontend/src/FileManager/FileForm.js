@@ -44,12 +44,15 @@ class FileForm extends React.Component {
 
         const updateRecord = (fieldName, valueOf = event => event.target.value) => {
             return event => {
-                const oldValues = this.state.currentRecord;
                 const fieldValue = valueOf(event);
 
-                this.setState({
-                    currentRecord: {...oldValues, [fieldName]: fieldValue }
-                });
+                this.setState((prevState, props) => {
+                    const record = prevState.currentRecord;
+
+                    record[fieldName] = fieldValue;
+
+                    return { currentRecord: record };
+                })
             };
         };
 

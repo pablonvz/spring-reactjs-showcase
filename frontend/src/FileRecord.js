@@ -12,8 +12,9 @@ export default class FileRecord {
     get createdAt() {
         return moment(this._createdAt);
     }
+
     set createdAt(createdAt) {
-        this._createdAt = createdAt != null ? createdAt.format() : null;
+        this._createdAt = createdAt.format();
     }
 
     static from(details) {
